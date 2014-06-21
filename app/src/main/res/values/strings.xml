@@ -9,5 +9,6 @@
     <string name="about_btn">О программе </string>
     <string name="title_activity_company">CompanyActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="logo">Logo</string>
 
 </resources>
