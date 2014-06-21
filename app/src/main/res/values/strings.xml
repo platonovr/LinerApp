@@ -4,5 +4,9 @@
     <string name="app_name">LinerApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="company_btn">Компании</string>
+    <string name="map_btn">Карта</string>
+    <string name="about_btn">О программе </string>
+    <string name="title_activity_company">CompanyActivity</string>
 
 </resources>
