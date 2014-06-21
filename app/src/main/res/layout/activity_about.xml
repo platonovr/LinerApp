@@ -15,7 +15,8 @@
         android:id="@+id/site_btn"
         android:textSize="20sp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +32,7 @@
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:id="@+id/imageView"
-        android:src="@drawable/Linerapp_logo"
+        android:src="@drawable/linerapplogo"
         android:contentDescription="@drawable/logo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -43,7 +44,7 @@
         android:id="@+id/textView2"
         android:text="@string/liner_phone"
         android:singleLine="false"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
