@@ -10,5 +10,6 @@
     <string name="title_activity_company">CompanyActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="logo">Logo</string>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>
