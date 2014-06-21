@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="D:\linerapp\LinerApp" />
-            <option value="D:\linerapp\LinerApp\app" />
+            <option value="C:\Users\Ильнар\AndroidStudioProjects\LinerApp" />
+            <option value="C:\Users\Ильнар\AndroidStudioProjects\LinerApp\app" />
           </set>
         </option>
       </GradleProjectSettings>
