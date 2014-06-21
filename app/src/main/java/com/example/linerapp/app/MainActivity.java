@@ -32,7 +32,8 @@ public class MainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.about_btn : {
-
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.company_btn : {

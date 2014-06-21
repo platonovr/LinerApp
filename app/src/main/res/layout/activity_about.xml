@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:text="@string/site_btn"
         android:id="@+id/site_btn"
-        android:layout_above="@+id/textView"
-        android:layout_alignLeft="@+id/textView" />
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,16 +23,28 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/liner_app"
         android:id="@+id/textView"
-        android:layout_above="@+id/imageView"
-        android:layout_alignLeft="@+id/imageView" />
+        android:textSize="30dp"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/Linerapp_logo"
+        android:contentDescription="@drawable/logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/logo"
-        android:contentDescription="@drawable/logo"
-        android:layout_centerVertical="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView2"
+        android:text="@string/liner_phone"
+        android:singleLine="false"
+        android:textSize="20sp"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
