@@ -2,25 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.linerapp.app" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-
-    <!-- For cashing map tiles -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    <!-- For debugging via USB using WiFi -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
-
-    <!-- The following two permissions are not required to use
-         Google Maps Android API v2, but are recommended. -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="permission_name" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
 
     <application
@@ -28,10 +21,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCWam7fsJ1YO05tzVzdo1MAfpCIE9e_9dk"/>
 
         <activity
             android:name="com.example.linerapp.app.MainActivity"
@@ -63,6 +52,10 @@
             android:name="com.example.linerapp.app.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDNC4knLFTN5CG4x7yZvjAYt5ZSPJ_D_sY"/>
     </application>
 
 </manifest>
