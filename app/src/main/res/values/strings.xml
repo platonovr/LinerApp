@@ -10,5 +10,8 @@
     <string name="title_activity_company">CompanyActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="logo">Logo</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="site_btn">Посетить сайт</string>
+    <string name="liner_app">Liner App 2014</string>
 
 </resources>

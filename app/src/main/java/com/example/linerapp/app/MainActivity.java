@@ -13,14 +13,15 @@ import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    private  Button mCompany_btn ;
-    private Button mAbout_btn ;
-    private Button mMap_btn ;
+    private Button mCompany_btn;
+    private Button mAbout_btn;
+    private Button mMap_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mCompany_btn =(Button) findViewById(R.id.company_btn);
+        mCompany_btn = (Button) findViewById(R.id.company_btn);
         mAbout_btn = (Button) findViewById(R.id.about_btn);
         mMap_btn = (Button) findViewById(R.id.map_btn);
         mCompany_btn.setOnClickListener(this);
@@ -31,16 +32,17 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.about_btn : {
-
+            case R.id.about_btn: {
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
                 break;
             }
-            case R.id.company_btn : {
-                Intent i = new Intent(this,CompanyActivity.class);
+            case R.id.company_btn: {
+                Intent i = new Intent(this, CompanyActivity.class);
                 startActivity(i);
                 break;
             }
-            case R.id.map_btn : {
+            case R.id.map_btn: {
                 break;
             }
         }
