@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                     startActivity(new Intent("com.example.linerapp.app.MAINSCREEN"));
 
                 } catch (InterruptedException e) {
