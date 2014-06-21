@@ -10,5 +10,6 @@
     <string name="title_activity_company">CompanyActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="logo">Logo</string>
-
+    <string name="site_btn"> lah</string>
+    <string name="liner_app"> lah</string>
 </resources>

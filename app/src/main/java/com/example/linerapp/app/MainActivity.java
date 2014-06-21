@@ -41,8 +41,11 @@ public class MainActivity extends Activity implements OnClickListener {
                 break;
             }
             case R.id.map_btn : {
+                Intent i = new Intent(this,MapActivity.class);
+                startActivity(i);
                 break;
             }
+
         }
     }
 
