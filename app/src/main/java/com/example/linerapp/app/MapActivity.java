@@ -93,10 +93,18 @@ public class MapActivity extends Activity implements LocationListener {
         LatLng latLng = new LatLng(latitude, longitude);
 
         // Showing the current location in Google Map
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
+        //создаем анимацию для камеры
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-        // Zoom in the Google Map
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        // пробный маркер , позже изменим
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude+0.004, longitude+0.004)).title("Наш магаз");
+
+        // сделали иконку красивого цвета
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+         // добавление маркера
+        googleMap.addMarker(marker);
 
     }
 
