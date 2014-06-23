@@ -1,6 +1,14 @@
 <resources>
 
     <style name="AppTheme" parent="android:Theme.Holo.NoActionBar">
+        <item name="android:spinnerStyle">@style/spinner_style</item>
+    </style>
+
+    <style name="spinner_style">
+        <item name="android:background">@drawable/spinner_selector</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:clickable">true</item>
     </style>
 
 </resources>
