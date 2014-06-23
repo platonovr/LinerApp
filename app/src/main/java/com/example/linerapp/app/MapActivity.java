@@ -25,6 +25,9 @@ public class MapActivity extends Activity implements LocationListener {
 
     //здесь хранится наша карта
     private GoogleMap googleMap;
+    private double latitude;
+    private double longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class MapActivity extends Activity implements LocationListener {
         }
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
 
+
     }
 
     /**
@@ -85,10 +89,10 @@ public class MapActivity extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        double latitude = location.getLatitude();
+        latitude = location.getLatitude();
 
         // Getting longitude of the current location
-        double longitude = location.getLongitude();
+        longitude = location.getLongitude();
 
         // Creating a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
@@ -105,6 +109,13 @@ public class MapActivity extends Activity implements LocationListener {
 
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
         position(new LatLng(latitude+0.003, longitude+0.003)));
+
+        gen = new IconGenerator(this);
+        gen.setStyle(IconGenerator.STYLE_PURPLE);
+        ourB = gen.makeIcon("LinerApp");
+
+        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
+                position(GeoHelper.geoLatLng(getApplicationContext(),"Казань Курская 28")));
 
     }
 
