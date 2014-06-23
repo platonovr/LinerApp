@@ -1,6 +1,7 @@
 package com.example.linerapp.app;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,7 +18,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+import com.google.maps.android.ui.IconGenerator;
 
 
 public class MapActivity extends Activity implements LocationListener {
@@ -97,6 +98,13 @@ public class MapActivity extends Activity implements LocationListener {
 
         // Zoom in the Google Map
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        IconGenerator gen = new IconGenerator(this);
+        gen.setStyle(IconGenerator.STYLE_PURPLE);
+        Bitmap ourB = gen.makeIcon("LinerApp");
+
+        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
+        position(new LatLng(latitude+0.003, longitude+0.003)));
 
     }
 
