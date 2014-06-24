@@ -3,4 +3,5 @@
     <color name="main_background">#222222</color>
     <color name="spinner_background">#444444</color>
     <color name="spinner_selected_background">#33CCFF</color>
+    <color name="tab_background">#33CCFF</color>
 </resources>

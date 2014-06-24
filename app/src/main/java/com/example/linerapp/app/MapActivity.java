@@ -7,16 +7,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.linerapp.app.util.GeoHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
@@ -115,7 +113,7 @@ public class MapActivity extends Activity implements LocationListener {
         ourB = gen.makeIcon("LinerApp");
 
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
-                position(GeoHelper.geoLatLng(getApplicationContext(),"Казань Курская 28")));
+                position(GeoHelper.geoLatLng(getApplicationContext(), "Казань Курская 28")));
 
     }
 
