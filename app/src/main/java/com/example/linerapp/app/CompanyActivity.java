@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.linerapp.app.model.Category;
 import com.example.linerapp.app.model.Company;
+import com.example.linerapp.app.util.CategorySpinnerAdapter;
 import com.example.linerapp.app.util.CompanyListAdapter;
+import com.example.linerapp.app.util.DataStorage;
 import com.example.linerapp.app.util.JSONLoader;
 
 import org.json.JSONArray;
@@ -20,7 +25,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 
@@ -31,23 +38,30 @@ public class CompanyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.company_layout);
 
-        CompanyJSONLoader companyJSONLoader = new CompanyJSONLoader();
-        companyJSONLoader.execute();
-        CategoryJSONLoader categoryJSONLoader = new CategoryJSONLoader();
-        categoryJSONLoader.execute();
+        initCategorySpinner(DataStorage.getCategories());
     }
 
     public void initCategorySpinner(List<Category> categories) {
-        Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
 
-        List<String> values = new ArrayList<>();
-        for (Category category : categories) {
-            values.add(category.getName());
-        }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner, values);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        ArrayAdapter<Category> categorySpinnerAdapter = new CategorySpinnerAdapter(this, categories);
 
-        spinner.setAdapter(arrayAdapter);
+        spinner.setAdapter(categorySpinnerAdapter);
+
+        new CompanyJSONLoader().execute(((Category) spinner.getSelectedItem()).getId());
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                new CompanyJSONLoader().execute(((Category) spinner.getSelectedItem()).getId());
+                Toast.makeText(getBaseContext(), ((Category) spinner.getSelectedItem()).getDescription(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     public void initCompanyList(List<Company> companies) {
@@ -59,30 +73,20 @@ public class CompanyActivity extends Activity {
     }
 
 
-    class CompanyJSONLoader extends AsyncTask<Void, Void, List<Company>> {
+    class CompanyJSONLoader extends AsyncTask<Integer, Void, List<Company>> {
 
         @Override
-        protected List<Company> doInBackground(Void... voids) {
-
-            return JSONLoader.loadCompanies();
+        protected List<Company> doInBackground(Integer... integers) {
+            if (integers.length == 0) {
+                return JSONLoader.loadAllCompanies();
+            } else {
+                return JSONLoader.loadCompaniesWithCategory(integers);
+            }
         }
 
         @Override
         protected void onPostExecute(List<Company> companies) {
             initCompanyList(companies);
-        }
-    }
-
-    class CategoryJSONLoader extends AsyncTask<Void, Void, List<Category>> {
-
-        @Override
-        protected List<Category> doInBackground(Void... voids) {
-            return JSONLoader.loadCategories();
-        }
-
-        @Override
-        protected void onPostExecute(List<Category> categories) {
-            initCategorySpinner(categories);
         }
     }
 }

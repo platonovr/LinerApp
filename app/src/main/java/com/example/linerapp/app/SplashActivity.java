@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.linerapp.app.util.DataStorage;
+import com.example.linerapp.app.util.JSONLoader;
+
 
 public class SplashActivity extends Activity {
 
@@ -20,6 +23,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 try {
+                    DataStorage.setCategories(JSONLoader.loadCategories());
                     Thread.sleep(300);
                     startActivity(new Intent("com.example.linerapp.app.MAINSCREEN"));
 

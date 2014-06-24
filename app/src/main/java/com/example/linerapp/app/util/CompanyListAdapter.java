@@ -36,4 +36,9 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
         ((TextView) view.findViewById(R.id.company_address)).setText(companies.get(position).getAddress());
         return view;
     }
+
+    @Override
+    public Company getItem(int position) {
+        return companies.get(position);
+    }
 }
