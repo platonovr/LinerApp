@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.linerapp.app.CompanyActivity;
 import com.example.linerapp.app.model.Category;
+import com.example.linerapp.app.model.Company;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -42,6 +43,8 @@ public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
         try {
             if (param == Category.class) {
                 return loadCategories();
+            } else if (param == Company.class) {
+                return loadCompanies();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,6 +69,25 @@ public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
             e.printStackTrace();
         }
         return categories;
+    }
+
+    protected ArrayList<Company> loadCompanies() throws IOException {
+        String address = BASE_URL.concat("companies/");
+
+        JSONArray jsonArray = getJSONFromURL(address);
+
+        ArrayList<Company> companies = new ArrayList<>();
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                companies.add(new Company(jsonObject.getInt("id"), jsonObject.getString("name"),
+                        jsonObject.getString("address")));
+            }
+        } catch (JSONException e) {
+            Log.e("Error", "Error parsing JSON array");
+            e.printStackTrace();
+        }
+        return companies;
     }
 
     public static JSONArray getJSONFromURL(String address) throws IOException {
@@ -103,6 +125,8 @@ public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
         }
         if (objects.get(0).getClass() == Category.class) {
             CompanyActivity.INSTANCE.initCategorySpinner();
+        } else if (objects.get(0).getClass() == Company.class) {
+            CompanyActivity.INSTANCE.initCompanyList();
         }
     }
 }
