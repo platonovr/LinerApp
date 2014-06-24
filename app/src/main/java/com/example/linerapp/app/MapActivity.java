@@ -6,10 +6,14 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.example.linerapp.app.model.Company;
 import com.example.linerapp.app.util.GeoHelper;
+import com.example.linerapp.app.util.JSONLoader;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -17,6 +21,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapActivity extends Activity implements LocationListener {
@@ -115,6 +127,15 @@ public class MapActivity extends Activity implements LocationListener {
         googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
                 position(GeoHelper.geoLatLng(getApplicationContext(), "Казань Курская 28")));
 
+
+        CompanyJSONLoader jsonLoader = new CompanyJSONLoader();
+        jsonLoader.execute();
+    }
+
+    // ============================ Stas ===============================
+    public void initCompanies(List<Company> companies) {
+        //TODO
+        // do something then companies loaded
     }
 
     @Override
@@ -130,5 +151,39 @@ public class MapActivity extends Activity implements LocationListener {
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    class CompanyJSONLoader extends AsyncTask<Void, Void, List<Company>> {
+
+        @Override
+        protected List<Company> doInBackground(Void... voids) {
+            String address = JSONLoader.BASE_URL.concat("companies");
+
+            JSONArray jsonArray = null;
+            try {
+                jsonArray = JSONLoader.getJSONFromURL(address);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            List<Company> companies = new ArrayList<>();
+            try {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    companies.add(new Company(jsonObject.getInt("id"), jsonObject.getString("name"),
+                            jsonObject.getString("address")));
+                }
+            } catch (JSONException e) {
+                Log.e("Error", "Error parsing JSON array");
+                e.printStackTrace();
+            }
+            return companies;
+        }
+
+        @Override
+        protected void onPostExecute(List<Company> companies) {
+            initCompanies(companies);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.linerapp.app.util;
 
+import android.net.rtp.AudioCodec;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -29,33 +30,26 @@ import java.util.List;
 /**
  * Created by Ильнар on 23.06.2014.
  */
-public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
+public class JSONLoader {
 
-    String BASE_URL = "https://linerapp.com/api/v1/";
+    private JSONLoader() {
+    }
 
-    @Override
-    protected ArrayList<?> doInBackground(Class<?>... classes) {
-        if (classes.length < 1) {
-            return null;
-        }
-        Class param = classes[0];
+    public static String BASE_URL = "https://linerapp.com/api/v1/";
 
+    /**
+     * Returns categories list downloaded from server
+     * @return categories list
+     */
+    public static ArrayList<Category> loadCategories() {
+        String address = BASE_URL.concat("categories/");
+
+        JSONArray jsonArray = null;
         try {
-            if (param == Category.class) {
-                return loadCategories();
-            } else if (param == Company.class) {
-                return loadCompanies();
-            }
+            jsonArray = getJSONFromURL(address);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-
-    protected ArrayList<Category> loadCategories() throws IOException {
-        String address = BASE_URL.concat("categories/");
-
-        JSONArray jsonArray = getJSONFromURL(address);
 
         ArrayList<Category> categories = new ArrayList<>();
         try {
@@ -71,10 +65,19 @@ public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
         return categories;
     }
 
-    protected ArrayList<Company> loadCompanies() throws IOException {
+    /**
+     * Returns companies downloaded from server
+     * @return companies list
+     */
+    public static ArrayList<Company> loadCompanies() {
         String address = BASE_URL.concat("companies/");
 
-        JSONArray jsonArray = getJSONFromURL(address);
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = getJSONFromURL(address);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ArrayList<Company> companies = new ArrayList<>();
         try {
@@ -90,6 +93,12 @@ public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
         return companies;
     }
 
+    /**
+     * Returns JSON array downloaded from given URL
+     * @param address url
+     * @return downloaded JSON array
+     * @throws IOException when downloaded data can't be parsed to JSON array
+     */
     public static JSONArray getJSONFromURL(String address) throws IOException {
 
         URL url = new URL(address);
@@ -116,17 +125,5 @@ public class JSONLoader extends AsyncTask<Class<?>, Void, ArrayList<?>> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(ArrayList<?> objects) {
-        if (objects.size() < 1) {
-            return;
-        }
-        if (objects.get(0).getClass() == Category.class) {
-            CompanyActivity.INSTANCE.initCategorySpinner();
-        } else if (objects.get(0).getClass() == Company.class) {
-            CompanyActivity.INSTANCE.initCompanyList();
-        }
     }
 }
