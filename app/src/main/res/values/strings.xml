@@ -16,5 +16,7 @@
     <string name="liner_phone">тел. +7 (843) 226-6-225</string>
     <string name="title_activity_tab">TabActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_company_info">CompanyInfoActivity</string>
+    <string name="online_reg">Онлайн регистрация</string>
 
 </resources>

@@ -5,11 +5,11 @@ package com.example.linerapp.app.model;
  */
 public class Company {
 
-    private int id;
+    protected int id;
 
-    private String name;
+    protected String name;
 
-    private String address;
+    protected String address;
 
     public Company(int id, String name, String address) {
         this.id = id;

@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.example.linerapp.app.R;
 import com.example.linerapp.app.model.Company;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -35,5 +33,10 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
         ((TextView) view.findViewById(R.id.company_name)).setText(companies.get(position).getName());
         ((TextView) view.findViewById(R.id.company_address)).setText(companies.get(position).getAddress());
         return view;
+    }
+
+    @Override
+    public Company getItem(int position) {
+        return companies.get(position);
     }
 }

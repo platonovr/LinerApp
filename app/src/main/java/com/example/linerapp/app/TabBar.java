@@ -1,12 +1,8 @@
 package com.example.linerapp.app;
 
-import android.app.Activity;
 import android.app.ActivityGroup;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TabHost;
 
 
