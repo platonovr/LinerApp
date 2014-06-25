@@ -16,24 +16,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Stas on 23.06.2014.
  */
 public class GeoHelper {
 
-    private static final double VISIBILITY_RADIUS = 10000;
-    public static HashMap<Marker,Company> markerCompanyHashMap ;
+    private static final double VISIBILITY_RADIUS = 100000;
+    public static HashMap<Marker, Company> markerCompanyHashMap;
 
 
-    public static LatLng geoLatLng(Context context,String address){
-        Geocoder geoCoder = new Geocoder(context,Locale.getDefault());
+    public static LatLng geoLatLng(Context context, String address) {
+        Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
         LatLng user = new LatLng(0, 0);
         try {
             List<Address> addresses = geoCoder.getFromLocationName(address, 5);
@@ -53,29 +50,29 @@ public class GeoHelper {
 
     }
 
-    public static boolean addMarkers(Context context,List<Company> companies,GoogleMap googleMap,double lat,double lon) {
-        LatLng person = new LatLng(lat,lon);
-     if (companies != null){
-         IconGenerator gen = new IconGenerator(context);
-         gen.setStyle(IconGenerator.STYLE_BLUE);
-         markerCompanyHashMap = new HashMap<>();
-         for(Company company : companies) {
-            Bitmap ourB = gen.makeIcon(company.getName());
+    public static boolean addMarkers(Context context, List<Company> companies, GoogleMap googleMap, double lat, double lon) {
+        LatLng person = new LatLng(lat, lon);
+        if (companies != null) {
+            IconGenerator gen = new IconGenerator(context);
+            gen.setStyle(IconGenerator.STYLE_BLUE);
+            markerCompanyHashMap = new HashMap<>();
+            for (Company company : companies) {
+                Bitmap ourB = gen.makeIcon(company.getName());
 
-            if (company.getAddress()!= null) {
-                LatLng place = geoLatLng(context,company.getAddress());
-                if (getDistance(person,place) <= VISIBILITY_RADIUS ) {
+                if (company.getAddress() != null) {
+                    LatLng place = geoLatLng(context, company.getAddress());
+                    if (getDistance(person, place) <= VISIBILITY_RADIUS) {
 
-                    Marker marker = googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
-                            position(place));
-                    markerCompanyHashMap.put(marker,company);
+                        Marker marker = googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
+                                position(place));
+                        markerCompanyHashMap.put(marker, company);
+                    }
                 }
             }
-            }
-         return true;
+            return true;
         } else {
             return false;
-     }
+        }
 
     }
 

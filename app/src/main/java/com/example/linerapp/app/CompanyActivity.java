@@ -3,7 +3,6 @@ package com.example.linerapp.app;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,16 +18,7 @@ import com.example.linerapp.app.util.CompanyListAdapter;
 import com.example.linerapp.app.util.DataStorage;
 import com.example.linerapp.app.util.JSONLoader;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 
 public class CompanyActivity extends Activity {

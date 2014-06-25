@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.example.linerapp.app.R;
 import com.example.linerapp.app.model.Company;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**

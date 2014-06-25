@@ -2,7 +2,6 @@ package com.example.linerapp.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,22 +11,18 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.linerapp.app.model.Company;
-import com.example.linerapp.app.util.BundleHelper;
 import com.example.linerapp.app.util.GeoHelper;
 import com.example.linerapp.app.util.JSONLoader;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.ui.IconGenerator;
 
 import java.util.List;
 
 
-public class MapActivity extends Activity implements LocationListener,GoogleMap.OnMarkerClickListener {
+public class MapActivity extends Activity implements LocationListener, GoogleMap.OnMarkerClickListener {
 
     //здесь хранится наша карта
     private GoogleMap googleMap;
@@ -62,7 +57,7 @@ public class MapActivity extends Activity implements LocationListener,GoogleMap.
         // Getting Current Location
         Location location = locationManager.getLastKnownLocation(provider);
 
-        if(location!=null){
+        if (location != null) {
             onLocationChanged(location);
         }
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
@@ -74,7 +69,7 @@ public class MapActivity extends Activity implements LocationListener,GoogleMap.
 
     /**
      * метод для загрузки карты
-     * */
+     */
     private void initilizeMap() {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
@@ -94,6 +89,7 @@ public class MapActivity extends Activity implements LocationListener,GoogleMap.
         super.onResume();
         initilizeMap();
     }
+
     //изменяем широту и долготу в зивисимости от перемещения
     @Override
     public void onLocationChanged(Location location) {
@@ -130,7 +126,7 @@ public class MapActivity extends Activity implements LocationListener,GoogleMap.
 
     // ============================ Stas ===============================
     public void initCompanies(List<Company> companies) {
-        GeoHelper.addMarkers(getApplicationContext(),companies,googleMap,latitude,longitude);
+        GeoHelper.addMarkers(getApplicationContext(), companies, googleMap, latitude, longitude);
     }
 
     @Override
@@ -151,7 +147,8 @@ public class MapActivity extends Activity implements LocationListener,GoogleMap.
     @Override
     public boolean onMarkerClick(Marker marker) {
         Company company = GeoHelper.markerCompanyHashMap.get(marker);
-        Bundle value = BundleHelper.bundleCompany(company);
+        Bundle value = new Bundle();
+        value.putInt("company.id", company.getId());
         Intent intent = new Intent(this, CompanyInfoActivity.class);
         intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, value);
         startActivity(intent);
