@@ -29,7 +29,7 @@ public class TabBar extends ActivityGroup implements TabHost.OnTabChangeListener
         tabSpec = tabHost.newTabSpec("Second").setIndicator("", getResources().getDrawable(android.R.drawable.ic_input_get)).setContent(intent);
         tabHost.addTab(tabSpec);
 
-        intent = new Intent(this, AboutActivity.class);
+        intent = new Intent(this, SettingsActivity.class);
         tabSpec = tabHost.newTabSpec("Third").setIndicator("", getResources().getDrawable(android.R.drawable.ic_menu_manage)).setContent(intent);
         tabHost.addTab(tabSpec);
 
