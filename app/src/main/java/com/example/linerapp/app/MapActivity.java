@@ -147,10 +147,8 @@ public class MapActivity extends Activity implements LocationListener, GoogleMap
     @Override
     public boolean onMarkerClick(Marker marker) {
         Company company = GeoHelper.markerCompanyHashMap.get(marker);
-        Bundle value = new Bundle();
-        value.putInt("company.id", company.getId());
         Intent intent = new Intent(this, CompanyInfoActivity.class);
-        intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, value);
+        intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, company.getId());
         startActivity(intent);
         return true;
     }

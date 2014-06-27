@@ -1,6 +1,7 @@
 package com.example.linerapp.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +30,7 @@ public class CompanyActivity extends Activity {
         setContentView(R.layout.company_layout);
 
         initCategorySpinner(DataStorage.getCategories());
+
     }
 
     public void initCategorySpinner(List<Category> categories) {
@@ -55,11 +57,21 @@ public class CompanyActivity extends Activity {
     }
 
     public void initCompanyList(List<Company> companies) {
-        ListView listView = (ListView) findViewById(R.id.company_listView);
+        final ListView listView = (ListView) findViewById(R.id.company_listView);
 
-        ListAdapter companyListAdapter = new CompanyListAdapter(this, companies);
+        final ListAdapter companyListAdapter = new CompanyListAdapter(this, companies);
 
         listView.setAdapter(companyListAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(), "Selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), CompanyInfoActivity.class);
+                intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity,((Company) companyListAdapter.getItem(i)).getId());
+                startActivity(intent);
+            }
+        });
     }
 
 

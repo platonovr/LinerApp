@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/main_background"
     tools:context="com.example.linerapp.app.AboutActivity">
 
 
@@ -24,7 +23,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@drawable/logo"
                 android:src="@drawable/logo"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"/>
 
 
             <RelativeLayout
@@ -36,6 +36,7 @@
                     android:id="@+id/company_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:textSize="30sp"
                     android:layout_centerHorizontal="true" />
 
