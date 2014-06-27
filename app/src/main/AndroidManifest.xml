@@ -60,6 +60,10 @@
             android:name="com.example.linerapp.app.CompanyInfoActivity"
             android:label="@string/title_activity_company_info" >
         </activity>
+        <activity
+            android:name="com.example.linerapp.app.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
