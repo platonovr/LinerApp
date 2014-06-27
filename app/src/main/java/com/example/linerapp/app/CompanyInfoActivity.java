@@ -35,8 +35,7 @@ public class CompanyInfoActivity extends Activity {
         ViewHolder.companyAddress = (TextView) findViewById(R.id.company_address_text);
 
 
-        Bundle extraCompany = getIntent().getExtras().getBundle(EXTRA_CompanyInfoActivity);
-        int companyId = extraCompany.getInt("company.id");
+        int companyId = getIntent().getExtras().getInt(EXTRA_CompanyInfoActivity);
 
         new ExtendedCompanyJSONLoader().execute(new Integer(companyId));
     }

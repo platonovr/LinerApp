@@ -67,10 +67,8 @@ public class CompanyActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getApplicationContext(), "Selected", Toast.LENGTH_SHORT).show();
-                Bundle value = new Bundle();
-                value.putInt("company.id", ((Company) companyListAdapter.getItem(i)).getId());
                 Intent intent = new Intent(getApplicationContext(), CompanyInfoActivity.class);
-                intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, value);
+                intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity,((Company) companyListAdapter.getItem(i)).getId());
                 startActivity(intent);
             }
         });
