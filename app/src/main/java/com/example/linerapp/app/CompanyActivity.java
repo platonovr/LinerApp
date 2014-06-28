@@ -46,7 +46,6 @@ public class CompanyActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 new CompanyJSONLoader().execute(((Category) spinner.getSelectedItem()).getId());
-                Toast.makeText(getBaseContext(), ((Category) spinner.getSelectedItem()).getDescription(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -57,6 +56,11 @@ public class CompanyActivity extends Activity {
     }
 
     public void initCompanyList(List<Company> companies) {
+        if (companies == null) {
+            Toast.makeText(getApplicationContext(), "Ошибка при загрузке данных, проверьте подключение к Интернету", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final ListView listView = (ListView) findViewById(R.id.company_listView);
 
         final ListAdapter companyListAdapter = new CompanyListAdapter(this, companies);
@@ -66,7 +70,6 @@ public class CompanyActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "Selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), CompanyInfoActivity.class);
                 intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity,((Company) companyListAdapter.getItem(i)).getId());
                 startActivity(intent);
