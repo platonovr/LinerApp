@@ -12,18 +12,16 @@ import android.widget.ArrayAdapter;
  */
 public class SettingsList extends ListFragment {
 
-    String[] settings = new String[] {
-        "Избранное",
+    String[] settings = new String[]{
+            "Избранное",
             "Профиль",
             "Выход"
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        /** Creating an array adapter to store the list of countries **/
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1,settings);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, settings);
 
-        /** Setting the list adapter for the ListFragment */
         setListAdapter(adapter);
 
         return super.onCreateView(inflater, container, savedInstanceState);
