@@ -8,26 +8,34 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.linerapp.app.model.ClusterMarker;
 import com.example.linerapp.app.model.Company;
 import com.example.linerapp.app.util.GeoHelper;
 import com.example.linerapp.app.util.JSONLoader;
+import com.example.linerapp.app.util.MarkerRendered;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.List;
 
 
-public class MapActivity extends Activity implements LocationListener, GoogleMap.OnMarkerClickListener {
+public class MapActivity extends Activity implements LocationListener,ClusterManager.OnClusterItemClickListener<ClusterMarker>,View.OnClickListener {
 
     //здесь хранится наша карта
     private GoogleMap googleMap;
+    private ClusterManager<ClusterMarker> mClusterManager;
     private double latitude;
     private double longitude;
+    private Button mapStyleBtn;
 
 
     @Override
@@ -60,12 +68,37 @@ public class MapActivity extends Activity implements LocationListener, GoogleMap
         if (location != null) {
             onLocationChanged(location);
         }
+
+        // Creating a LatLng object for the current location
+        LatLng latLng = new LatLng(latitude, longitude);
+        // Showing the current location in Google Map
+       googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // Zoom in the Google Map
+       googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
+
+
+       // googleMap.setOnMarkerClickListener(this);
+
+        mClusterManager = new ClusterManager<>(this, googleMap);
+        mClusterManager.setOnClusterItemClickListener(this);
+        mClusterManager.setRenderer(new MarkerRendered(
+                getApplicationContext(), googleMap, mClusterManager));
+        googleMap.setOnCameraChangeListener(mClusterManager);
+        googleMap.setOnMarkerClickListener(mClusterManager);
 
         CompanyJSONLoader jsonLoader = new CompanyJSONLoader();
         jsonLoader.execute();
-        googleMap.setOnMarkerClickListener(this);
+
+        mapStyleBtn = (Button) findViewById(R.id.map_style_button);
+        mapStyleBtn.setOnClickListener(this);
+
     }
+
+
 
     /**
      * метод для загрузки карты
@@ -99,34 +132,15 @@ public class MapActivity extends Activity implements LocationListener, GoogleMap
         longitude = location.getLongitude();
 
         // Creating a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
+       // LatLng latLng = new LatLng(latitude, longitude);
 
-        // Showing the current location in Google Map
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        // Zoom in the Google Map
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-/*
-        IconGenerator gen = new IconGenerator(this);
-        gen.setStyle(IconGenerator.STYLE_PURPLE);
-        Bitmap ourB = gen.makeIcon("LinerApp");
-
-        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
-                position(new LatLng(latitude+0.003, longitude+0.003)));
-
-        gen = new IconGenerator(this);
-        gen.setStyle(IconGenerator.STYLE_PURPLE);
-        ourB = gen.makeIcon("LinerApp");
-
-        googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
-                position(GeoHelper.geoLatLng(getApplicationContext(), "Казань Курская 28")));
-
-*/
     }
 
     // ============================ Stas ===============================
     public void initCompanies(List<Company> companies) {
-        GeoHelper.addMarkers(getApplicationContext(), companies, googleMap, latitude, longitude);
+        //GeoHelper.addMarkers(getApplicationContext(), companies, googleMap, latitude, longitude);
+        GeoHelper.addClusterMarkers(getApplicationContext(),companies,mClusterManager);
     }
 
     @Override
@@ -143,7 +157,7 @@ public class MapActivity extends Activity implements LocationListener, GoogleMap
     public void onProviderDisabled(String s) {
 
     }
-
+/*
     @Override
     public boolean onMarkerClick(Marker marker) {
         Company company = GeoHelper.markerCompanyHashMap.get(marker);
@@ -152,6 +166,58 @@ public class MapActivity extends Activity implements LocationListener, GoogleMap
         startActivity(intent);
         return true;
     }
+*/
+    @Override
+    public boolean onClusterItemClick(ClusterMarker clusterMarker) {
+        Company company = clusterMarker.getCompany();
+        Intent intent = new Intent(this, CompanyInfoActivity.class);
+        intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, company.getId());
+        startActivity(intent);
+        return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.map_style_button) {
+            //Creating the instance of PopupMenu
+            PopupMenu popup = new PopupMenu(MapActivity.this, mapStyleBtn);
+            //Inflating the Popup using xml file
+            popup.getMenuInflater().inflate(R.menu.map, popup.getMenu());
+
+            //registering popup with OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()){
+                        case R.id.satellite : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                            mapStyleBtn.setText(R.string.satellite);
+                            break;
+                        }
+                        case R.id.normal : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                            mapStyleBtn.setText(R.string.normal);
+                            break;
+                        }
+                        case R.id.terrain : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                            mapStyleBtn.setText(R.string.terrain);
+                            break;
+                        }
+                        case R.id.hybrid : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                            mapStyleBtn.setText(R.string.hybrid);
+                            break;
+                        }
+                    }
+                    return true;
+                }
+            });
+
+            popup.show();//showing popup menu
+
+        }
+    }
+
 
     class CompanyJSONLoader extends AsyncTask<Void, Void, List<Company>> {
 
