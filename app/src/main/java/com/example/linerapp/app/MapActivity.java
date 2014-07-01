@@ -8,6 +8,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.linerapp.app.model.ClusterMarker;
@@ -24,13 +28,14 @@ import com.google.maps.android.clustering.ClusterManager;
 import java.util.List;
 
 
-public class MapActivity extends Activity implements LocationListener,ClusterManager.OnClusterItemClickListener<ClusterMarker> {
+public class MapActivity extends Activity implements LocationListener,ClusterManager.OnClusterItemClickListener<ClusterMarker>,View.OnClickListener {
 
     //здесь хранится наша карта
     private GoogleMap googleMap;
     private ClusterManager<ClusterMarker> mClusterManager;
     private double latitude;
     private double longitude;
+    private Button mapStyleBtn;
 
 
     @Override
@@ -87,6 +92,9 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
 
         CompanyJSONLoader jsonLoader = new CompanyJSONLoader();
         jsonLoader.execute();
+
+        mapStyleBtn = (Button) findViewById(R.id.map_style_button);
+        mapStyleBtn.setOnClickListener(this);
 
     }
 
@@ -166,6 +174,48 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
         intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, company.getId());
         startActivity(intent);
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.map_style_button) {
+            //Creating the instance of PopupMenu
+            PopupMenu popup = new PopupMenu(MapActivity.this, mapStyleBtn);
+            //Inflating the Popup using xml file
+            popup.getMenuInflater().inflate(R.menu.map, popup.getMenu());
+
+            //registering popup with OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()){
+                        case R.id.satellite : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                            mapStyleBtn.setText(R.string.satellite);
+                            break;
+                        }
+                        case R.id.normal : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                            mapStyleBtn.setText(R.string.normal);
+                            break;
+                        }
+                        case R.id.terrain : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                            mapStyleBtn.setText(R.string.terrain);
+                            break;
+                        }
+                        case R.id.hybrid : {
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                            mapStyleBtn.setText(R.string.hybrid);
+                            break;
+                        }
+                    }
+                    return true;
+                }
+            });
+
+            popup.show();//showing popup menu
+
+        }
     }
 
 

@@ -19,5 +19,8 @@
     <string name="title_activity_company_info">CompanyInfoActivity</string>
     <string name="online_reg">Онлайн регистрация</string>
     <string name="title_activity_settings">SettingsActivity</string>
-
+    <string name="satellite">Спутник</string>
+    <string name="terrain">Рельеф</string>
+    <string name="hybrid">Гибрид</string>
+    <string name="normal">Обычный</string>
 </resources>
