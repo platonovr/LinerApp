@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import java.util.List;
 
 public class CompanyActivity extends Activity {
 
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class CompanyActivity extends Activity {
 
         initCategorySpinner(DataStorage.getCategories());
 
+        progressBar = (ProgressBar) findViewById(R.id.company_progressBar);
     }
 
     public void initCategorySpinner(List<Category> categories) {
@@ -46,6 +50,8 @@ public class CompanyActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 new CompanyJSONLoader().execute(((Category) spinner.getSelectedItem()).getId());
+                clearCompanyList();
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -60,6 +66,8 @@ public class CompanyActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Ошибка при загрузке данных, проверьте подключение к Интернету", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        progressBar.setVisibility(View.INVISIBLE);
 
         final ListView listView = (ListView) findViewById(R.id.company_listView);
 
@@ -77,6 +85,10 @@ public class CompanyActivity extends Activity {
         });
     }
 
+    public void clearCompanyList() {
+        final ListView listView = (ListView) findViewById(R.id.company_listView);
+        listView.setAdapter(null);
+    }
 
     class CompanyJSONLoader extends AsyncTask<Integer, Void, List<Company>> {
 
