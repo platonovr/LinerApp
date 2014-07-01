@@ -1,4 +1,4 @@
-package com.example.linerapp.app;
+package com.example.linerapp.app.map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,11 +14,11 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.linerapp.app.CompanyInfoActivity;
+import com.example.linerapp.app.R;
 import com.example.linerapp.app.model.ClusterMarker;
 import com.example.linerapp.app.model.Company;
-import com.example.linerapp.app.util.GeoHelper;
 import com.example.linerapp.app.util.JSONLoader;
-import com.example.linerapp.app.util.MarkerRendered;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;

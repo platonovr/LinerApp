@@ -1,16 +1,23 @@
 package com.example.linerapp.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.linerapp.app.model.Category;
@@ -26,30 +33,63 @@ import java.util.List;
 public class CompanyActivity extends Activity {
 
     ProgressBar progressBar;
+    Button searchOrCategory;
+    boolean barState;
+    Spinner categories;
+    EditText search;
+    FrameLayout actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.company_layout);
 
-        initCategorySpinner(DataStorage.getCategories());
-
         progressBar = (ProgressBar) findViewById(R.id.company_progressBar);
+        searchOrCategory = (Button) findViewById(R.id.search_or_category_button);
+        barState = false;
+        categories = (Spinner) findViewById(R.id.category_spinner);
+        initCategorySpinner(DataStorage.getCategories());
+        search = (EditText) getLayoutInflater().inflate(R.layout.search_layout, null);
+        actionBar = (FrameLayout) findViewById(R.id.action_bar);
+        searchOrCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionBar.removeAllViews();
+                if (barState) {
+                    actionBar.addView(categories);
+                    reloadCompaniesByCategory();
+                } else {
+                    actionBar.addView(search);
+                }
+                barState = !barState;
+            }
+        });
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if ((keyEvent != null && keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER)
+                || keyEvent == null) {
+                    Toast.makeText(getApplicationContext(), search.getText(), Toast.LENGTH_SHORT).show();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void initCategorySpinner(List<Category> categories) {
-        final Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
-
         ArrayAdapter<Category> categorySpinnerAdapter = new CategorySpinnerAdapter(this, categories);
 
-        spinner.setAdapter(categorySpinnerAdapter);
+        this.categories.setAdapter(categorySpinnerAdapter);
 
-        new CompanyJSONLoader().execute(((Category) spinner.getSelectedItem()).getId());
+        new CompanyJSONLoader().execute(((Category) this.categories.getSelectedItem()).getId());
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        this.categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                new CompanyJSONLoader().execute(((Category) spinner.getSelectedItem()).getId());
+                new CompanyJSONLoader().execute(((Category) CompanyActivity.this.categories.getSelectedItem()).getId());
                 clearCompanyList();
                 progressBar.setVisibility(View.VISIBLE);
             }
@@ -59,6 +99,12 @@ public class CompanyActivity extends Activity {
 
             }
         });
+    }
+
+    private void reloadCompaniesByCategory() {
+        new CompanyJSONLoader().execute(((Category) CompanyActivity.this.categories.getSelectedItem()).getId());
+        clearCompanyList();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     public void initCompanyList(List<Company> companies) {

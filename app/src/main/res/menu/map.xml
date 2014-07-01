@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.linerapp.app.MapActivity" >
+    tools:context="com.example.linerapp.app.map.MapActivity" >
 
     <item
         android:id="@+id/normal"

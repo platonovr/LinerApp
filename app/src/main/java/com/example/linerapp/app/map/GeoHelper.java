@@ -1,4 +1,4 @@
-package com.example.linerapp.app.util;
+package com.example.linerapp.app.map;
 
 import android.content.Context;
 import android.graphics.Bitmap;

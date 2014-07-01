@@ -24,7 +24,7 @@
             android:name="com.example.linerapp.app.CompanyActivity"
             android:label="@string/title_activity_company" >
         </activity>
-        <activity android:name="com.example.linerapp.app.MapActivity" >
+        <activity android:name=".map.MapActivity" >
         </activity>
         <activity
             android:name="com.example.linerapp.app.SplashActivity"

@@ -5,6 +5,7 @@
     android:id="@+id/category_spinner_text"
     android:textSize="22sp"
     android:padding="5dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:singleLine="true">
 
 </TextView>
