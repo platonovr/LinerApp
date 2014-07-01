@@ -7,12 +7,14 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 
+import com.example.linerapp.app.model.ClusterMarker;
 import com.example.linerapp.app.model.Company;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.ui.IconGenerator;
 
 import java.io.IOException;
@@ -25,8 +27,8 @@ import java.util.Locale;
  */
 public class GeoHelper {
 
-    private static final double VISIBILITY_RADIUS = 100000;
-    public static HashMap<Marker, Company> markerCompanyHashMap;
+    //private static final double VISIBILITY_RADIUS = 100000;
+    //public static HashMap<Marker, Company> markerCompanyHashMap;
 
 
     public static LatLng geoLatLng(Context context, String address) {
@@ -49,7 +51,7 @@ public class GeoHelper {
         return user;
 
     }
-
+/*
     public static boolean addMarkers(Context context, List<Company> companies, GoogleMap googleMap, double lat, double lon) {
         LatLng person = new LatLng(lat, lon);
         if (companies != null) {
@@ -61,12 +63,12 @@ public class GeoHelper {
 
                 if (company.getAddress() != null) {
                     LatLng place = geoLatLng(context, company.getAddress());
-                    if (getDistance(person, place) <= VISIBILITY_RADIUS) {
+                 //   if (getDistance(person, place) <= VISIBILITY_RADIUS) {
 
                         Marker marker = googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(ourB)).
                                 position(place));
                         markerCompanyHashMap.put(marker, company);
-                    }
+                 // }
                 }
             }
             return true;
@@ -75,6 +77,39 @@ public class GeoHelper {
         }
 
     }
+    */
+    public static boolean addClusterMarkers(Context context, List<Company> companies, ClusterManager<ClusterMarker> clusterManager) {
+        if (companies != null) {
+            for (Company company : companies) {
+                if (company.getAddress() != null) {
+                    LatLng place = geoLatLng(context, company.getAddress());
+
+                    ClusterMarker clusterMarker = new ClusterMarker(place,company);
+
+                    clusterManager.addItem(clusterMarker);
+                }
+            }
+            double lat;
+            double lng;
+            for(int i=0 ;i<20;i++) {
+                if(i==3 || i ==5 || i== 6 || i==15) {
+                     lat = 55.791 - i / 60d;
+                    lng = 49.1821 + i / 60d;
+                } else {
+                     lat = 55.791 + i / 60d;
+                     lng = 49.1821 + i / 60d;
+                }
+                ClusterMarker offsetItem = new ClusterMarker(new LatLng(lat, lng), companies.get(1));
+                clusterManager.addItem(offsetItem);
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
     public static double getDistance(LatLng person, LatLng place) {
         double distance = 0;
