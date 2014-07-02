@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import com.example.linerapp.app.map.MapActivity;
+
 
 public class TabBar extends ActivityGroup implements TabHost.OnTabChangeListener {
 
