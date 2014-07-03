@@ -13,13 +13,16 @@
     />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/normal"
         android:id="@+id/map_style_button"
-        android:alpha="50"
-        android:layout_alignParentTop="true"
+        android:background="@drawable/map_btn_selector"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#ff4a4a4a"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
