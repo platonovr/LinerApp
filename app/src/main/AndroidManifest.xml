@@ -24,7 +24,7 @@
             android:name="com.example.linerapp.app.CompanyActivity"
             android:label="@string/title_activity_company" >
         </activity>
-        <activity android:name=".map.MapActivity" >
+        <activity android:name="com.example.linerapp.app.map.MapActivity" >
         </activity>
         <activity
             android:name="com.example.linerapp.app.SplashActivity"
@@ -63,6 +63,10 @@
         <activity
             android:name="com.example.linerapp.app.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.example.linerapp.app.FavoritesActivity"
+            android:label="@string/title_activity_favorites" >
         </activity>
     </application>
 

@@ -2,6 +2,7 @@ package com.example.linerapp.app.map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -30,7 +31,6 @@ import java.util.List;
 
 public class MapActivity extends Activity implements LocationListener,ClusterManager.OnClusterItemClickListener<ClusterMarker>,View.OnClickListener {
 
-    //здесь хранится наша карта
     private GoogleMap googleMap;
     private ClusterManager<ClusterMarker> mClusterManager;
     private double latitude;
@@ -57,15 +57,15 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
+       Criteria criteria = new Criteria();
 
         // Getting the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
 
         // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
+       Location location = locationManager.getLastKnownLocation(provider);
 
-        if (location != null) {
+       if (location != null) {
             onLocationChanged(location);
         }
 
@@ -95,7 +95,8 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
 
         mapStyleBtn = (Button) findViewById(R.id.map_style_button);
         mapStyleBtn.setOnClickListener(this);
-
+       Drawable drawable = mapStyleBtn.getBackground();
+        drawable.setAlpha(220);
     }
 
 

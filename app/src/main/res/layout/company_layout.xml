@@ -28,7 +28,7 @@
             android:id="@+id/search_or_category_button"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@drawable/abc_ic_search" />
+            android:background="@android:drawable/ic_search_category_default" />
 
     </LinearLayout>
 
