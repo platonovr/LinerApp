@@ -61,10 +61,14 @@ public class CompanyInfoActivity extends Activity {
             public void onClick(View view) {
                 if (favorite){
                     Log.d("My","In DB");
+                    SqlCommand.get(getApplicationContext()).deleteRow(company.getId());
+                    ViewHolder.favorite_btn.setBackground(getResources().getDrawable(R.drawable.add_favorites));
+                    favorite = !favorite;
                 } else {
                     SqlCommand.get(getApplicationContext()).addRow(company.getId(), company.getName());
                     ViewHolder.favorite_btn.setBackground(getResources().getDrawable(R.drawable.remove_favorites));
                     Log.d("My","Not In DB");
+                    favorite = !favorite;
                 }
             }
         });

@@ -71,9 +71,12 @@ public class SqlCommand {
     public boolean findRow (int id){
         String table = SqlDB.DB_FAVORITE;
         String selection =  SqlDB.DB_FAVORITE_ID+"= "+id ;
-
         Cursor c = sqlbase.query(table, null, selection,null, null, null, null);
         Log.d("My","a "+c.moveToFirst());
         return c.moveToFirst();
+    }
+
+    public void deleteRow (int id) {
+        int delCount = sqlbase.delete(SqlDB.DB_FAVORITE, "id = " + id, null);
     }
 }
