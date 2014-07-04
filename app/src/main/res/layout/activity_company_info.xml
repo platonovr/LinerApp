@@ -85,8 +85,18 @@
 
             </RelativeLayout>
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/add_favorites"
+                android:id="@+id/add_to_favorites"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignBottom="@+id/company_image"
+                android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
 
     </ScrollView>
+
 
 </LinearLayout>
