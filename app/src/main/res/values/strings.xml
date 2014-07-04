@@ -23,4 +23,6 @@
     <string name="terrain">Рельеф</string>
     <string name="hybrid">Гибрид</string>
     <string name="normal">Обычный</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
+
 </resources>
