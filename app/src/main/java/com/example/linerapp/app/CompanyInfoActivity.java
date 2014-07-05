@@ -46,7 +46,7 @@ public class CompanyInfoActivity extends Activity {
         favorite =SqlCommand.get(getApplicationContext()).findRow(companyId);
         if (favorite){
 
-            ViewHolder.favorite_btn.setBackground(getResources().getDrawable(R.drawable.remove_favorites));
+            ViewHolder.favorite_btn.setBackgroundResource(R.drawable.remove_favorites);
         }
 
         new ExtendedCompanyJSONLoader().execute(new Integer(companyId));
@@ -62,11 +62,11 @@ public class CompanyInfoActivity extends Activity {
                 if (favorite){
                     Log.d("My","In DB");
                     SqlCommand.get(getApplicationContext()).deleteRow(company.getId());
-                    ViewHolder.favorite_btn.setBackground(getResources().getDrawable(R.drawable.add_favorites));
+                    ViewHolder.favorite_btn.setBackgroundResource(R.drawable.add_favorites);
                     favorite = !favorite;
                 } else {
                     SqlCommand.get(getApplicationContext()).addRow(company.getId(), company.getName());
-                    ViewHolder.favorite_btn.setBackground(getResources().getDrawable(R.drawable.remove_favorites));
+                    ViewHolder.favorite_btn.setBackgroundResource(R.drawable.remove_favorites);
                     Log.d("My","Not In DB");
                     favorite = !favorite;
                 }
