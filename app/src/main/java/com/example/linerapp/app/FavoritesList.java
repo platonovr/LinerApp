@@ -24,12 +24,10 @@ public class FavoritesList extends ListFragment {
     private ArrayList<Row> rowArrayList;
     private ArrayAdapter<String> adapter;
     private String name;
-    String[] settings;
-    List<String> list;
+    private List<String> list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rowArrayList = SqlCommand.get(getActivity().getApplicationContext()).getRows();
-        settings = new String[rowArrayList.size()];
         list = new ArrayList<>();
         int i=0;
         for(Row row : rowArrayList){
