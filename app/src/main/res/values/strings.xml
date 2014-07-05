@@ -24,5 +24,14 @@
     <string name="hybrid">Гибрид</string>
     <string name="normal">Обычный</string>
     <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="company_name">Имя компании</string>
+    <string name="company_description">разработка аппаратного обеспечения</string>
+    <string name="company_address">ул.Фрунзе д5</string>
+    <string name="company_info">Описание компании </string>
+    <string name="rating0">Рейтинг: </string>
+    <string name="mark">8.1/10</string>
+    <string name="mark_btn">Оценить</string>
+    <string name="phone_btn">Позвонить </string>
+    <string name="favorites_btn">В избранное</string>
 
 </resources>
