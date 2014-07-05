@@ -1,6 +1,7 @@
 package com.example.linerapp.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -63,6 +64,9 @@ public class CompanyInfoActivity extends Activity {
                     Log.d("My","In DB");
                     SqlCommand.get(getApplicationContext()).deleteRow(company.getId());
                     ViewHolder.favorite_btn.setBackgroundResource(R.drawable.add_favorites);
+                    Intent intent = new Intent();
+                    intent.putExtra("name", company.getName());
+                    setResult(RESULT_OK, intent);
                     favorite = !favorite;
                 } else {
                     SqlCommand.get(getApplicationContext()).addRow(company.getId(), company.getName());

@@ -3,6 +3,7 @@ package com.example.linerapp.app;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.example.linerapp.app.database.SqlCommand;
 import com.example.linerapp.app.model.Row;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Stas on 04.07.2014.
@@ -20,17 +22,23 @@ import java.util.ArrayList;
 public class FavoritesList extends ListFragment {
 
     private ArrayList<Row> rowArrayList;
+    private ArrayAdapter<String> adapter;
+    private String name;
+    String[] settings;
+    List<String> list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rowArrayList = SqlCommand.get(getActivity().getApplicationContext()).getRows();
-        String[] settings = new String[rowArrayList.size()];
+        settings = new String[rowArrayList.size()];
+        list = new ArrayList<>();
         int i=0;
         for(Row row : rowArrayList){
-            settings[i] = row.getName();
+            list.add(row.getName());
             i++;
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, settings);
+        adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, list);
+
         setListAdapter(adapter);
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -44,8 +52,28 @@ public class FavoritesList extends ListFragment {
             if (row.getName().equals(clickedDetail)) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), CompanyInfoActivity.class);
                 intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity,row.getId());
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (name!=null) {
+            list.remove(name);
+            adapter.notifyDataSetChanged();
+            name = null;
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {return;}
+
+        name = data.getStringExtra("name");
+        Log.d("My",name);
     }
 }
