@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.linerapp.app.CompanyInfoActivity;
 import com.example.linerapp.app.R;
+import com.example.linerapp.app.customization.NonHierarchicalDistanceBasedAlgorithmMy;
 import com.example.linerapp.app.model.ClusterMarker;
 import com.example.linerapp.app.model.Company;
 import com.example.linerapp.app.util.JSONLoader;
@@ -25,6 +26,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.algo.GridBasedAlgorithm;
+import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
 
 import java.util.List;
 
@@ -87,6 +90,7 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
         mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setRenderer(new MarkerRendered(
                 getApplicationContext(), googleMap, mClusterManager));
+        mClusterManager.setAlgorithm(new NonHierarchicalDistanceBasedAlgorithmMy<ClusterMarker>());
         googleMap.setOnCameraChangeListener(mClusterManager);
         googleMap.setOnMarkerClickListener(mClusterManager);
 
