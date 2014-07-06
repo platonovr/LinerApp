@@ -33,5 +33,7 @@
     <string name="mark_btn">Оценить</string>
     <string name="phone_btn">Позвонить </string>
     <string name="favorites_btn">В избранное</string>
+    <string name="show">Показать</string>
+    <string name="hide">Скрыть</string>
 
 </resources>
