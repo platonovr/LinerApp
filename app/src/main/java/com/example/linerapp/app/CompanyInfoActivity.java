@@ -3,6 +3,7 @@ package com.example.linerapp.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class CompanyInfoActivity extends Activity {
         static TextView companyDescription;
         static TextView companyAddress;
         static Button fav_btn;
+        static Button phone_btn;
     }
 
     @Override
@@ -43,6 +45,8 @@ public class CompanyInfoActivity extends Activity {
         ViewHolder.companyDescription = (TextView) findViewById(R.id.company_description_text);
         ViewHolder.companyAddress = (TextView) findViewById(R.id.company_address_text);
         ViewHolder.fav_btn = (Button) findViewById(R.id.favorites_btn);
+        ViewHolder.phone_btn = (Button) findViewById(R.id.phone_btn);
+
         int companyId = getIntent().getExtras().getInt(EXTRA_CompanyInfoActivity);
         favorite =SqlCommand.get(getApplicationContext()).findRow(companyId);
         ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
@@ -66,11 +70,11 @@ public class CompanyInfoActivity extends Activity {
                     Log.d("My","In DB");
                     SqlCommand.get(getApplicationContext()).deleteRow(company.getId());
                     ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel,0,0,0);
+                    ViewHolder.fav_btn.setText("Убрать");
+                    favorite = !favorite;
                     Intent intent = new Intent();
                     intent.putExtra("name", company.getName());
                     setResult(RESULT_OK, intent);
-                    ViewHolder.fav_btn.setText("Убрать");
-                    favorite = !favorite;
                 } else {
                     SqlCommand.get(getApplicationContext()).addRow(company.getId(), company.getName());
                     ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
@@ -78,6 +82,14 @@ public class CompanyInfoActivity extends Activity {
                     ViewHolder.fav_btn.setText("В избранное");
                     favorite = !favorite;
                 }
+            }
+        });
+        ViewHolder.phone_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String numb = "tel:" + "89600471293";
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(numb));
+                startActivity(intent);
             }
         });
     }
