@@ -1,12 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:example="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginEnd="3dp"
-    android:layout_marginTop="7dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginEnd="@dimen/activity_margin_end"
+    android:layout_marginTop="@dimen/activity_margin_top"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
     tools:context="com.example.linerapp.app.AboutActivity">
 
 
@@ -71,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:textSize="20dp"
+                        android:textSize="@dimen/activity_rating_text_size"
                         android:text="@string/mark"
                         android:id="@+id/rating" />
 
@@ -113,15 +114,36 @@
                         android:drawableLeft="@drawable/ic_device_access_call"
                         android:id="@+id/phone_btn" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/company_description_text"
-                    android:layout_width="wrap_content"
+                <com.example.linerapp.app.customization.ExpandablePanel
+                    android:id="@+id/ex_panel"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:text="@string/company_description"
-                    android:textSize="15sp"
+                    android:layout_width="fill_parent"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/layout_with_buttons" />
+                    android:layout_below="@+id/layout_with_buttons"
+                    example:handle="@+id/expand"
+                    example:content="@+id/company_description_text"
+                    example:collapsedHeight="50dip"
+                    example:animationDuration="25">
+                    <TextView
+                        android:id="@id/company_description_text"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/company_description"
+                        android:textSize="15sp"/>
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
+                    <Button
+                        android:id="@id/expand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_selector"
+                        android:textSize="10sp"
+                        android:textStyle="italic|bold"
+                        android:text="@string/show" />
+                </com.example.linerapp.app.customization.ExpandablePanel>
 
                 <TextView
                     android:id="@+id/company_address_text"
@@ -130,7 +152,7 @@
                     android:text="@string/company_address"
                     android:textSize="15sp"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/company_description_text" />
+                    android:layout_below="@+id/ex_panel" />
 
 
                 <Button

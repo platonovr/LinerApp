@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.linerapp.app.customization.ExpandablePanel;
 import com.example.linerapp.app.database.SqlCommand;
 import com.example.linerapp.app.model.Company;
 import com.example.linerapp.app.model.ExtendedCompany;
@@ -34,6 +35,7 @@ public class CompanyInfoActivity extends Activity {
         static TextView companyAddress;
         static Button fav_btn;
         static Button phone_btn;
+        static ExpandablePanel ex_pnl;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class CompanyInfoActivity extends Activity {
         ViewHolder.companyAddress = (TextView) findViewById(R.id.company_address_text);
         ViewHolder.fav_btn = (Button) findViewById(R.id.favorites_btn);
         ViewHolder.phone_btn = (Button) findViewById(R.id.phone_btn);
+        ViewHolder.ex_pnl = (ExpandablePanel) findViewById(R.id.ex_panel);
 
         int companyId = getIntent().getExtras().getInt(EXTRA_CompanyInfoActivity);
         favorite =SqlCommand.get(getApplicationContext()).findRow(companyId);
@@ -90,6 +93,16 @@ public class CompanyInfoActivity extends Activity {
                 String numb = "tel:" + "89600471293";
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(numb));
                 startActivity(intent);
+            }
+        });
+        ViewHolder.ex_pnl.setOnExpandListener(new ExpandablePanel.OnExpandListener() {
+            public void onCollapse(View handle, View content) {
+                Button btn = (Button)handle;
+                btn.setText(R.string.show);
+            }
+            public void onExpand(View handle, View content) {
+                Button btn = (Button)handle;
+                btn.setText(R.string.hide);
             }
         });
     }
