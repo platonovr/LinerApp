@@ -135,14 +135,23 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="@android:color/darker_gray"/>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="right"
+                       android:layout_marginTop="-11dp">
                     <Button
                         android:id="@id/expand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_selector"
+                        android:layout_marginBottom="-28dp"
                         android:textSize="10sp"
                         android:textStyle="italic|bold"
-                        android:text="@string/show" />
+                        android:gravity="top|center"
+                        android:text="@string/show"
+                       />
+                   </LinearLayout>
                 </com.example.linerapp.app.customization.ExpandablePanel>
 
                 <TextView
