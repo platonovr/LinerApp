@@ -56,9 +56,9 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
 
         googleMap.setMyLocationEnabled(true);
 
+
         // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         // Creating a criteria object to retrieve provider
        Criteria criteria = new Criteria();
 

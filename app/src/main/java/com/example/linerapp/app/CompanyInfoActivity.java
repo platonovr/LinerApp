@@ -52,6 +52,7 @@ public class CompanyInfoActivity extends Activity {
 
         int companyId = getIntent().getExtras().getInt(EXTRA_CompanyInfoActivity);
         favorite =SqlCommand.get(getApplicationContext()).findRow(companyId);
+        Log.d("My",""+favorite);
         ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
         ViewHolder.fav_btn.setText("В избранное");
         if (favorite){
@@ -72,17 +73,17 @@ public class CompanyInfoActivity extends Activity {
                 if (favorite){
                     Log.d("My","In DB");
                     SqlCommand.get(getApplicationContext()).deleteRow(company.getId());
-                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel,0,0,0);
-                    ViewHolder.fav_btn.setText("Убрать");
+                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
+                    ViewHolder.fav_btn.setText("В избранное");
                     favorite = !favorite;
                     Intent intent = new Intent();
                     intent.putExtra("name", company.getName());
                     setResult(RESULT_OK, intent);
                 } else {
                     SqlCommand.get(getApplicationContext()).addRow(company.getId(), company.getName());
-                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
+                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel,0,0,0);
                     Log.d("My","Not In DB");
-                    ViewHolder.fav_btn.setText("В избранное");
+                    ViewHolder.fav_btn.setText("Убрать");
                     favorite = !favorite;
                 }
             }
