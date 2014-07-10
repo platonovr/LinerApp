@@ -32,8 +32,8 @@
             android:layout_height="match_parent"
             style="@style/item_style"
             android:clickable="true"
-            android:drawableTop="@android:drawable/ic_search_category_default"
-            android:padding="5dp"/>
+            android:drawableRight="@android:drawable/ic_search_category_default"
+            android:padding="0dp"/>
 
     </LinearLayout>
 

@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.linerapp.app.model.Category;
 import com.example.linerapp.app.model.Company;
 import com.example.linerapp.app.model.ExtendedCompany;
+import com.example.linerapp.app.model.Line;
+import com.example.linerapp.app.model.LineField;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,8 +134,6 @@ public class JSONLoader {
 
     public static ExtendedCompany loadCompanyById(int id) {
 
-        Log.e("id", Integer.toString(id));
-
         String address = BASE_URL.concat("companies/" + id);
 
         JSONObject jsonObject = null;
@@ -154,6 +154,56 @@ public class JSONLoader {
             e.printStackTrace();
         }
         return company;
+    }
+
+    public static ArrayList<Line> getLines(int companyId) {
+        String address = BASE_URL.concat("companies/" + companyId + "/lines");
+
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = getJSONFromURL(address);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        ArrayList<Line> lines = new ArrayList<>();
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                lines.add(new Line(jsonObject.getInt("id"), jsonObject.getString("name"),
+                        jsonObject.getString("description")));
+            }
+        } catch (JSONException e) {
+            Log.e("Error", "Error parsing JSON array");
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
+    public static ArrayList<LineField> getLineFields(int lineId) {
+        String address = BASE_URL.concat("companies/0/lines/" + lineId + "/line_fields");
+
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = getJSONFromURL(address);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        ArrayList<LineField> lineFields = new ArrayList<>();
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                lineFields.add(new LineField(jsonObject.getInt("id"), jsonObject.getString("custom_field_type"),
+                        jsonObject.getString("name"), jsonObject.getString("label"), jsonObject.getString("data")));
+            }
+        } catch (JSONException e) {
+            Log.e("Error", "Error parsing JSON array");
+            e.printStackTrace();
+        }
+        return lineFields;
     }
 
     /**
