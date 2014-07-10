@@ -35,5 +35,7 @@
     <string name="favorites_btn">В избранное</string>
     <string name="show">Показать</string>
     <string name="hide">Скрыть</string>
+    <string name="title_activity_lines_list">LinesListActivity</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 
 </resources>

@@ -48,7 +48,7 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
 
         try {
             // грузим карту
-            initilizeMap();
+            initializeMap();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,9 +56,9 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
 
         googleMap.setMyLocationEnabled(true);
 
+
         // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         // Creating a criteria object to retrieve provider
        Criteria criteria = new Criteria();
 
@@ -108,7 +108,7 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
     /**
      * метод для загрузки карты
      */
-    private void initilizeMap() {
+    private void initializeMap() {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
@@ -125,7 +125,7 @@ public class MapActivity extends Activity implements LocationListener,ClusterMan
     @Override
     protected void onResume() {
         super.onResume();
-        initilizeMap();
+        initializeMap();
     }
 
     //изменяем широту и долготу в зивисимости от перемещения

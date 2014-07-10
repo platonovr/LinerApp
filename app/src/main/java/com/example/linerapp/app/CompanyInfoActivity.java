@@ -26,7 +26,7 @@ import java.util.List;
 public class CompanyInfoActivity extends Activity {
 
     public static final String EXTRA_CompanyInfoActivity = "com.example.linerapp.app.CompanyInfoActivity.EXTRA_CompanyInfoActivity";
-    private boolean favorite ;
+    private boolean favorite;
 
     private static class ViewHolder {
         static ImageView companyView;
@@ -36,6 +36,7 @@ public class CompanyInfoActivity extends Activity {
         static Button fav_btn;
         static Button phone_btn;
         static ExpandablePanel ex_pnl;
+        static Button reg_button;
     }
 
     @Override
@@ -49,15 +50,26 @@ public class CompanyInfoActivity extends Activity {
         ViewHolder.fav_btn = (Button) findViewById(R.id.favorites_btn);
         ViewHolder.phone_btn = (Button) findViewById(R.id.phone_btn);
         ViewHolder.ex_pnl = (ExpandablePanel) findViewById(R.id.ex_panel);
+        ViewHolder.reg_button = (Button) findViewById(R.id.online_reg_button);
 
-        int companyId = getIntent().getExtras().getInt(EXTRA_CompanyInfoActivity);
-        favorite =SqlCommand.get(getApplicationContext()).findRow(companyId);
-        ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
+        final int companyId = getIntent().getExtras().getInt(EXTRA_CompanyInfoActivity);
+        favorite = SqlCommand.get(getApplicationContext()).findRow(companyId);
+        Log.d("My", "" + favorite);
+        ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept, 0, 0, 0);
         ViewHolder.fav_btn.setText("В избранное");
-        if (favorite){
-            ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel,0,0,0);
+        if (favorite) {
+            ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel, 0, 0, 0);
             ViewHolder.fav_btn.setText("Убрать");
         }
+
+        ViewHolder.reg_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LinesListActivity.class);
+                intent.putExtra(LinesListActivity.EXTRA_COMPANY_ID, companyId);
+                startActivity(intent);
+            }
+        });
 
         new ExtendedCompanyJSONLoader().execute(new Integer(companyId));
     }
@@ -69,20 +81,20 @@ public class CompanyInfoActivity extends Activity {
         ViewHolder.fav_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (favorite){
-                    Log.d("My","In DB");
+                if (favorite) {
+                    Log.d("My", "In DB");
                     SqlCommand.get(getApplicationContext()).deleteRow(company.getId());
-                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel,0,0,0);
-                    ViewHolder.fav_btn.setText("Убрать");
+                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept, 0, 0, 0);
+                    ViewHolder.fav_btn.setText("В избранное");
                     favorite = !favorite;
                     Intent intent = new Intent();
                     intent.putExtra("name", company.getName());
                     setResult(RESULT_OK, intent);
                 } else {
                     SqlCommand.get(getApplicationContext()).addRow(company.getId(), company.getName());
-                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_accept,0,0,0);
-                    Log.d("My","Not In DB");
-                    ViewHolder.fav_btn.setText("В избранное");
+                    ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel, 0, 0, 0);
+                    Log.d("My", "Not In DB");
+                    ViewHolder.fav_btn.setText("Убрать");
                     favorite = !favorite;
                 }
             }
@@ -97,11 +109,12 @@ public class CompanyInfoActivity extends Activity {
         });
         ViewHolder.ex_pnl.setOnExpandListener(new ExpandablePanel.OnExpandListener() {
             public void onCollapse(View handle, View content) {
-                Button btn = (Button)handle;
+                Button btn = (Button) handle;
                 btn.setText(R.string.show);
             }
+
             public void onExpand(View handle, View content) {
-                Button btn = (Button)handle;
+                Button btn = (Button) handle;
                 btn.setText(R.string.hide);
             }
         });

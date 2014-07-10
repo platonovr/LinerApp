@@ -123,8 +123,8 @@
                     android:layout_below="@+id/layout_with_buttons"
                     example:handle="@+id/expand"
                     example:content="@+id/company_description_text"
-                    example:collapsedHeight="50dip"
-                    example:animationDuration="25">
+                    example:collapsedHeight="60dip"
+                    example:animationDuration="50">
                     <TextView
                         android:id="@id/company_description_text"
                         android:layout_width="fill_parent"

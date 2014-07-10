@@ -10,7 +10,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -68,6 +68,14 @@
         <activity
             android:name="com.example.linerapp.app.FavoritesActivity"
             android:label="@string/title_activity_favorites" >
+        </activity>
+        <activity
+            android:name="com.example.linerapp.app.LinesListActivity"
+            android:label="@string/title_activity_lines_list" >
+        </activity>
+        <activity
+            android:name="com.example.linerapp.app.RegistrationActivity"
+            android:label="@string/title_activity_registration" >
         </activity>
     </application>
 
