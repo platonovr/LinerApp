@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.linerapp.app.database.SqlCommand;
 import com.example.linerapp.app.model.Row;
@@ -42,6 +43,13 @@ public class SettingsList extends ListFragment {
         if(clickedDetail.equals("Избранное")) {
             Intent intent = new Intent(getActivity().getApplicationContext(), FavoritesActivity.class);
             startActivity(intent);
+        } else   if(clickedDetail.equals("Выход")) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else   if(clickedDetail.equals("Профиль")) {
+            Toast.makeText(getActivity().getApplicationContext(),"Доступно в следующей версии",Toast.LENGTH_SHORT).show();
         }
 
 
