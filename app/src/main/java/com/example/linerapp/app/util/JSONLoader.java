@@ -149,6 +149,7 @@ public class JSONLoader {
             company = new ExtendedCompany(jsonObject.getInt("id"), jsonObject.getString("name"),
                     jsonObject.getString("address"));
             company.setDescription(jsonObject.getString("description"));
+            company.setShortUrl(jsonObject.getString("short_url"));
         } catch (JSONException e) {
             Log.e("Error", "Error parsing JSON array");
             e.printStackTrace();
@@ -204,6 +205,11 @@ public class JSONLoader {
             e.printStackTrace();
         }
         return lineFields;
+    }
+
+    public static void submitForm(JSONObject jsonObject, String companyUrl) {
+        String url = "https://www.linerapp.com/" + companyUrl + "/online/submit";
+        //TODO
     }
 
     /**

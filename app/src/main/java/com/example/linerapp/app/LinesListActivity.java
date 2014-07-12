@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.linerapp.app.model.ExtendedCompany;
 import com.example.linerapp.app.model.Line;
 import com.example.linerapp.app.util.JSONLoader;
 
@@ -25,6 +22,9 @@ public class LinesListActivity extends Activity {
     ArrayList<Line> lines;
 
     static String EXTRA_COMPANY_ID = "company_id";
+    static String EXTRA_COMPANY_SHORT_URL = "company_short_url";
+
+    String companyUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,9 @@ public class LinesListActivity extends Activity {
         setContentView(R.layout.activity_lines_list);
 
         linesList = (ListView) findViewById(R.id.lines_list);
+        companyUrl = getIntent().getExtras().getString(EXTRA_COMPANY_SHORT_URL);
         new LinesJSONLoader().execute(getIntent().getExtras().getInt(EXTRA_COMPANY_ID));
+
     }
 
     public void initLinesList(final ArrayList<Line> lines) {
@@ -48,6 +50,7 @@ public class LinesListActivity extends Activity {
                 int id = lines.get(i).getId();
                 Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
                 intent.putExtra(RegistrationActivity.EXTRA_LINE_ID, id);
+                intent.putExtra(RegistrationActivity.EXTRA_COMPANY_SHORT_URL, companyUrl);
                 startActivity(intent);
             }
         });

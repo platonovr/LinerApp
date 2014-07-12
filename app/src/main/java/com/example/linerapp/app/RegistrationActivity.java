@@ -1,6 +1,5 @@
 package com.example.linerapp.app;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -9,35 +8,37 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.example.linerapp.app.model.Category;
-import com.example.linerapp.app.model.Line;
 import com.example.linerapp.app.model.LineField;
 import com.example.linerapp.app.util.JSONLoader;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 
 public class RegistrationActivity extends Activity {
 
 
     public static String EXTRA_LINE_ID = "line_id";
+    static String EXTRA_COMPANY_SHORT_URL = "company_short_url";
     ArrayList<LineField> lineFields;
+    ArrayList<View> values = new ArrayList<>();
     LinearLayout fields;
+
+    String companyUrl;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -62,6 +63,9 @@ public class RegistrationActivity extends Activity {
         min = calendar.get(Calendar.MINUTE);
 
         fields = (LinearLayout) findViewById(R.id.fields);
+
+        companyUrl = getIntent().getExtras().getString(EXTRA_COMPANY_SHORT_URL);
+
         new LineFieldsJSONLoader().execute(getIntent().getExtras().getInt(EXTRA_LINE_ID));
     }
 
@@ -83,10 +87,14 @@ public class RegistrationActivity extends Activity {
                 EditText text = new EditText(this);
 
                 if (field.getType().equals("string")) {
+
                     text.setInputType(InputType.TYPE_CLASS_TEXT);
                 } else if (field.getType().equals("phone")) {
+
                     text.setInputType(InputType.TYPE_CLASS_PHONE);
                 }
+
+                values.add(text);
                 fields.addView(text);
             } else {
                 if (field.getType().equals("datetime_picker")) {
@@ -104,6 +112,7 @@ public class RegistrationActivity extends Activity {
                     });
                     initDateTime();
                     fields.addView(dateTime);
+                    values.add(dateTime);
                 } else if (field.getType().equals("select")) {
                     String[] values = field.getData().split(",");
                     Spinner spinner = new Spinner(this);
@@ -114,14 +123,47 @@ public class RegistrationActivity extends Activity {
                     spinner.setAdapter(arrayAdapter);
 
                     fields.addView(spinner);
+                    this.values.add(spinner);
                 }
             }
+        }
+
+
+        Button submit = (Button) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < lineFields.size(); i++) {
+                    LineField lineField = lineFields.get(i);
+                    if (!lineField.getType().equals("select")) {
+                        lineField.setValue(((TextView) values.get(i)).getText().toString());
+                    } else {
+                        lineField.setValue(((Spinner) values.get(i)).getSelectedItem().toString());
+                    }
+                }
+                submitForm();
+            }
+        });
+    }
+
+    private void submitForm() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            for (LineField lineField : lineFields) {
+                jsonObject.put(lineField.getType(), lineField.getValue());
+            }
+
+            new SubmitJSONLoader().execute(jsonObject);
+        }catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error submitting form", Toast.LENGTH_SHORT).show();
+            return;
         }
     }
 
     private void initDateTime() {
         if (dateTime != null) {
-            dateTime.setText(d + "." + m + "." + y + " " + h + ":" + min);
+            dateTime.setText(d + "." + (m + 1) + "." + y + " " + h + ":" + (min < 10 ? "0" : "") + min);
         }
     }
 
@@ -167,6 +209,20 @@ public class RegistrationActivity extends Activity {
         @Override
         protected void onPostExecute(ArrayList<LineField> list) {
             initLineFields(list);
+        }
+    }
+
+    class SubmitJSONLoader extends AsyncTask<JSONObject, Void, Void> {
+
+        @Override
+        protected Void doInBackground(JSONObject... jsonObjects) {
+            JSONLoader.submitForm(jsonObjects[0], companyUrl);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(getApplicationContext(), "Заявка успешно оставлена", Toast.LENGTH_SHORT);
         }
     }
 }

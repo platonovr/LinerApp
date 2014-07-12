@@ -2,25 +2,19 @@ package com.example.linerapp.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.linerapp.app.customization.ExpandablePanel;
 import com.example.linerapp.app.database.SqlCommand;
-import com.example.linerapp.app.model.Company;
 import com.example.linerapp.app.model.ExtendedCompany;
 import com.example.linerapp.app.util.JSONLoader;
-
-import java.util.List;
 
 
 public class CompanyInfoActivity extends Activity {
@@ -61,15 +55,6 @@ public class CompanyInfoActivity extends Activity {
             ViewHolder.fav_btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_navigation_cancel, 0, 0, 0);
             ViewHolder.fav_btn.setText("Убрать");
         }
-
-        ViewHolder.reg_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LinesListActivity.class);
-                intent.putExtra(LinesListActivity.EXTRA_COMPANY_ID, companyId);
-                startActivity(intent);
-            }
-        });
 
         new ExtendedCompanyJSONLoader().execute(new Integer(companyId));
     }
@@ -116,6 +101,16 @@ public class CompanyInfoActivity extends Activity {
             public void onExpand(View handle, View content) {
                 Button btn = (Button) handle;
                 btn.setText(R.string.hide);
+            }
+        });
+
+        ViewHolder.reg_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LinesListActivity.class);
+                intent.putExtra(LinesListActivity.EXTRA_COMPANY_ID, company.getId());
+                intent.putExtra(LinesListActivity.EXTRA_COMPANY_SHORT_URL, company.getShortUrl());
+                startActivity(intent);
             }
         });
     }

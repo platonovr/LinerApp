@@ -23,6 +23,8 @@ public class ExtendedCompany extends Company {
 
     protected String site;
 
+    protected String shortUrl;
+
     protected String logoFileName;
 
     public ExtendedCompany(int id, String name, String address) {
@@ -31,7 +33,7 @@ public class ExtendedCompany extends Company {
 
     public ExtendedCompany(int id, String name, String address, String description, int categotyId,
                            int subCategoryId, String eMail, String vkontakte, String twitter,
-                           String facebook, String linkedin, String site, String logoFileName) {
+                           String facebook, String linkedin, String site, String shortUrl, String logoFileName) {
         super(id, name, address);
         this.description = description;
         this.categotyId = categotyId;
@@ -42,6 +44,7 @@ public class ExtendedCompany extends Company {
         this.facebook = facebook;
         this.linkedin = linkedin;
         this.site = site;
+        this.shortUrl = shortUrl;
         this.logoFileName = logoFileName;
     }
 
@@ -115,6 +118,14 @@ public class ExtendedCompany extends Company {
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+    public String getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
     }
 
     public String getLogoFileName() {
