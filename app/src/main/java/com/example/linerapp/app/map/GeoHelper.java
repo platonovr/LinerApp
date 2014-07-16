@@ -82,20 +82,6 @@ public class GeoHelper {
                     clusterManager.addItem(clusterMarker);
                 }
             }
-            double lat;
-            double lng;
-            for(int i=0 ;i<20;i++) {
-                if(i==3 || i ==5 || i== 6 || i==15) {
-                     lat = 55.791 - i / 60d;
-                    lng = 49.1821 + i / 60d;
-                } else {
-                     lat = 55.791 + i / 60d;
-                     lng = 49.1821 + i / 60d;
-                }
-                ClusterMarker offsetItem = new ClusterMarker(new LatLng(lat, lng), companies.get(1));
-                clusterManager.addItem(offsetItem);
-            }
-
             return true;
         } else {
             return false;

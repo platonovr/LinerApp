@@ -30,7 +30,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import java.util.List;
 
 
-public class MapActivity extends Activity implements LocationListener, ClusterManager.OnClusterItemClickListener<ClusterMarker>, View.OnClickListener {
+public class MapActivity extends Activity implements LocationListener,ClusterManager.OnClusterItemClickListener<ClusterMarker>,View.OnClickListener {
 
     private GoogleMap googleMap;
     private ClusterManager<ClusterMarker> mClusterManager;
@@ -58,32 +58,31 @@ public class MapActivity extends Activity implements LocationListener, ClusterMa
         // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
+       Criteria criteria = new Criteria();
 
         // Getting the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
 
         // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
+       Location location = locationManager.getLastKnownLocation(provider);
 
-        if (location != null) {
+       if (location != null) {
             onLocationChanged(location);
         }
 
         // Creating a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
         // Showing the current location in Google Map
-      /* googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+       googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         // Zoom in the Google Map
-       googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));*/
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+       googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
 
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
 
 
-        // googleMap.setOnMarkerClickListener(this);
+       // googleMap.setOnMarkerClickListener(this);
 
         mClusterManager = new ClusterManager<>(this, googleMap);
         mClusterManager.setOnClusterItemClickListener(this);
@@ -98,9 +97,10 @@ public class MapActivity extends Activity implements LocationListener, ClusterMa
 
         mapStyleBtn = (Button) findViewById(R.id.map_style_button);
         mapStyleBtn.setOnClickListener(this);
-        Drawable drawable = mapStyleBtn.getBackground();
+       Drawable drawable = mapStyleBtn.getBackground();
         drawable.setAlpha(220);
     }
+
 
 
     /**
@@ -135,7 +135,7 @@ public class MapActivity extends Activity implements LocationListener, ClusterMa
         longitude = location.getLongitude();
 
         // Creating a LatLng object for the current location
-        // LatLng latLng = new LatLng(latitude, longitude);
+       // LatLng latLng = new LatLng(latitude, longitude);
 
 
     }
@@ -143,7 +143,7 @@ public class MapActivity extends Activity implements LocationListener, ClusterMa
     // ============================ Stas ===============================
     public void initCompanies(List<Company> companies) {
         //GeoHelper.addMarkers(getApplicationContext(), companies, googleMap, latitude, longitude);
-        GeoHelper.addClusterMarkers(getApplicationContext(), companies, mClusterManager);
+        GeoHelper.addClusterMarkers(getApplicationContext(),companies,mClusterManager);
     }
 
     @Override
@@ -160,17 +160,16 @@ public class MapActivity extends Activity implements LocationListener, ClusterMa
     public void onProviderDisabled(String s) {
 
     }
-
-    /*
-        @Override
-        public boolean onMarkerClick(Marker marker) {
-            Company company = GeoHelper.markerCompanyHashMap.get(marker);
-            Intent intent = new Intent(this, CompanyInfoActivity.class);
-            intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, company.getId());
-            startActivity(intent);
-            return true;
-        }
-    */
+/*
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Company company = GeoHelper.markerCompanyHashMap.get(marker);
+        Intent intent = new Intent(this, CompanyInfoActivity.class);
+        intent.putExtra(CompanyInfoActivity.EXTRA_CompanyInfoActivity, company.getId());
+        startActivity(intent);
+        return true;
+    }
+*/
     @Override
     public boolean onClusterItemClick(ClusterMarker clusterMarker) {
         Company company = clusterMarker.getCompany();
@@ -191,23 +190,23 @@ public class MapActivity extends Activity implements LocationListener, ClusterMa
             //registering popup with OnMenuItemClickListener
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.satellite: {
+                    switch (item.getItemId()){
+                        case R.id.satellite : {
                             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                             mapStyleBtn.setText(R.string.satellite);
                             break;
                         }
-                        case R.id.normal: {
+                        case R.id.normal : {
                             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                             mapStyleBtn.setText(R.string.normal);
                             break;
                         }
-                        case R.id.terrain: {
+                        case R.id.terrain : {
                             googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
                             mapStyleBtn.setText(R.string.terrain);
                             break;
                         }
-                        case R.id.hybrid: {
+                        case R.id.hybrid : {
                             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                             mapStyleBtn.setText(R.string.hybrid);
                             break;
