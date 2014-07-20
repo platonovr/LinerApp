@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -33,7 +34,7 @@ import java.util.List;
 public class CompanyActivity extends Activity {
 
     ProgressBar progressBar;
-    Button searchOrCategory;
+    ImageButton searchOrCategory;
     boolean barState;
     Spinner categories;
     EditText search;
@@ -45,7 +46,7 @@ public class CompanyActivity extends Activity {
         setContentView(R.layout.company_layout);
 
         progressBar = (ProgressBar) findViewById(R.id.company_progressBar);
-        searchOrCategory = (Button) findViewById(R.id.search_or_category_button);
+        searchOrCategory = (ImageButton) findViewById(R.id.search_or_category_button);
         barState = false;
         categories = (Spinner) findViewById(R.id.category_spinner);
         initCategorySpinner(DataStorage.getCategories());
