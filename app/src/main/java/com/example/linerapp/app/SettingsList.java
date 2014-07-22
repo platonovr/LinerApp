@@ -1,6 +1,7 @@
 package com.example.linerapp.app;
 
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.linerapp.app.database.SqlCommand;
+import com.example.linerapp.app.model.Row;
+
+import java.util.List;
 
 /**
  * Created by Stas on 27.06.2014.
@@ -35,8 +41,14 @@ public class SettingsList extends ListFragment {
         super.onListItemClick(l, v, position, id);
         String clickedDetail = (String)l.getItemAtPosition(position);
         if(clickedDetail.equals("Избранное")) {
-            Intent intent = new Intent(getActivity().getApplicationContext(), FavoritesActivity.class);
-            startActivity(intent);
+            Context context =getActivity().getApplicationContext();
+            List<Row> myList = SqlCommand.get(context).getRows();
+            if (myList.size()==0) {
+                Toast.makeText(context,"В вашем избранном пусто",Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity().getApplicationContext(), FavoritesActivity.class);
+                startActivity(intent);
+            }
         } else   if(clickedDetail.equals("Выход")) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
