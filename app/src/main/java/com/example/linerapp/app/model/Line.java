@@ -11,10 +11,13 @@ public class Line {
 
     private String description;
 
-    public Line(int id, String name, String description) {
+    private String shortUrl;
+
+    public Line(int id, String name, String description, String shortUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.shortUrl = shortUrl;
     }
 
     public int getId() {
@@ -39,5 +42,13 @@ public class Line {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
     }
 }

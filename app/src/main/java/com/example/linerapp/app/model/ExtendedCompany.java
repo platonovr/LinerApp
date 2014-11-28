@@ -31,6 +31,11 @@ public class ExtendedCompany extends Company {
         super(id, name, address);
     }
 
+    public ExtendedCompany(int id, String name, String address, String description) {
+        super(id, name, address);
+        this.description = description;
+    }
+
     public ExtendedCompany(int id, String name, String address, String description, int categotyId,
                            int subCategoryId, String eMail, String vkontakte, String twitter,
                            String facebook, String linkedin, String site, String shortUrl, String logoFileName) {

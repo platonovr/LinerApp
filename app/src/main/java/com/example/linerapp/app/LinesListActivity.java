@@ -51,6 +51,7 @@ public class LinesListActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
                 intent.putExtra(RegistrationActivity.EXTRA_LINE_ID, id);
                 intent.putExtra(RegistrationActivity.EXTRA_COMPANY_SHORT_URL, companyUrl);
+                intent.putExtra(RegistrationActivity.EXTRA_LINE_SHORT_URL, lines.get(i).getShortUrl());
                 startActivity(intent);
             }
         });

@@ -28,6 +28,7 @@ import com.example.linerapp.app.util.CompanyListAdapter;
 import com.example.linerapp.app.util.DataStorage;
 import com.example.linerapp.app.util.JSONLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -73,6 +74,7 @@ public class CompanyActivity extends Activity {
                     Toast.makeText(getApplicationContext(), search.getText(), Toast.LENGTH_SHORT).show();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+                    new CompanySearchJSONLoader().execute(search.getText().toString());
                     return true;
                 }
                 return false;
@@ -146,6 +148,19 @@ public class CompanyActivity extends Activity {
             } else {
                 return JSONLoader.loadCompaniesWithCategory(integers);
             }
+        }
+
+        @Override
+        protected void onPostExecute(List<Company> companies) {
+            initCompanyList(companies);
+        }
+    }
+
+    class CompanySearchJSONLoader extends AsyncTask<String, Void, List<Company>> {
+
+        @Override
+        protected List<Company> doInBackground(String... strings) {
+            return JSONLoader.loadCompaniesByName(strings[0]);
         }
 
         @Override

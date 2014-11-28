@@ -34,11 +34,13 @@ public class RegistrationActivity extends Activity {
 
     public static String EXTRA_LINE_ID = "line_id";
     static String EXTRA_COMPANY_SHORT_URL = "company_short_url";
+    static String EXTRA_LINE_SHORT_URL = "line_short_url";
     ArrayList<LineField> lineFields;
     ArrayList<View> values = new ArrayList<>();
     LinearLayout fields;
 
     String companyUrl;
+    String lineUrl;
 
     int DIALOG_DATE = 1;
     int DIALOG_TIME = 2;
@@ -65,6 +67,7 @@ public class RegistrationActivity extends Activity {
         fields = (LinearLayout) findViewById(R.id.fields);
 
         companyUrl = getIntent().getExtras().getString(EXTRA_COMPANY_SHORT_URL);
+        lineUrl = getIntent().getExtras().getString(EXTRA_LINE_SHORT_URL);
 
         new LineFieldsJSONLoader().execute(getIntent().getExtras().getInt(EXTRA_LINE_ID));
     }
@@ -147,13 +150,14 @@ public class RegistrationActivity extends Activity {
     }
 
     private void submitForm() {
-        JSONObject jsonObject = new JSONObject();
+        StringBuilder stringBuilder = new StringBuilder("{");
         try {
             for (LineField lineField : lineFields) {
-                jsonObject.put(lineField.getType(), lineField.getValue());
+                stringBuilder.append("\"order[" + lineField.getName() + "]\":\"" + lineField.getValue() + "\",");
             }
+            stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), "}");
 
-            new SubmitJSONLoader().execute(jsonObject);
+            new SubmitJSONLoader().execute(stringBuilder.toString());
         }catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Error submitting form", Toast.LENGTH_SHORT).show();
@@ -212,17 +216,25 @@ public class RegistrationActivity extends Activity {
         }
     }
 
-    class SubmitJSONLoader extends AsyncTask<JSONObject, Void, Void> {
+    class SubmitJSONLoader extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected Void doInBackground(JSONObject... jsonObjects) {
-            JSONLoader.submitForm(jsonObjects[0], companyUrl);
+        protected Void doInBackground(String... strings) {
+            try {
+                JSONLoader.submitForm(strings[0], companyUrl, lineUrl);
+            } catch (Exception e) {
+
+                return null;
+            }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(getApplicationContext(), "Заявка успешно оставлена", Toast.LENGTH_SHORT);
+            super.onPostExecute(aVoid);
+            Toast.makeText(getApplicationContext(), "Ошибка сохранения заявки", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Заявка успешно оставлена", Toast.LENGTH_LONG).show();
         }
     }
 }
