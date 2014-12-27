@@ -31,9 +31,10 @@ public class ExtendedCompany extends Company {
         super(id, name, address);
     }
 
-    public ExtendedCompany(int id, String name, String address, String description) {
+    public ExtendedCompany(int id, String name, String address, String description, int categotyId) {
         super(id, name, address);
         this.description = description;
+        this.categotyId = categotyId;
     }
 
     public ExtendedCompany(int id, String name, String address, String description, int categotyId,
@@ -139,5 +140,9 @@ public class ExtendedCompany extends Company {
 
     public void setLogoFileName(String logoFileName) {
         this.logoFileName = logoFileName;
+    }
+
+    public Company getCompany() {
+        return new Company(id, name, address);
     }
 }
